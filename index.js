@@ -6,6 +6,13 @@ if (fs.existsSync('/.env')) {
     require('dotenv').config();
 }
 
+// 🛑 TAMBAHKAN LINE INI BUAT NGE-CEK TOKEN LU KEBACA APA KAGAK
+console.log("=== ISI CONFIG YANG KEBACA ===");
+console.log("BOT_TOKEN_ADA:", process.env.BOT_TOKEN ? "YA (Ada Isinya)" : "KAGAK ADA (KOSONG)");
+console.log("GUILD_ID:", process.env.GUILD_ID || "KOSONG");
+console.log("CHANNEL_ID:", process.env.CHANNEL_ID || "KOSONG");
+console.log("=============================");
+
 const http = require('http');
 const { Client, GatewayIntentBits } = require('discord.js');
 const { joinVoiceChannel } = require('@discordjs/voice');
