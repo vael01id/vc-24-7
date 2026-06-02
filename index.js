@@ -1,12 +1,31 @@
-// Membaca file /.env yang di-mount ama Choreo secara paksa
 const fs = require('fs');
-if (fs.existsSync('/.env')) {
-    require('dotenv').config({ path: '/.env' });
-} else if (fs.existsSync('.env')) {
+const path = require('path');
+
+// List lokasi yang kemungkinan dipake Choreo buat ngumpetin file .env lu
+const possiblePaths = [
+    '/.env',
+    path.join(__dirname, '.env'),
+    path.join(__dirname, '..', '.env'),
+    '/workspace/.env',
+    './.env'
+];
+
+let envFound = false;
+for (const envPath of possiblePaths) {
+    if (fs.existsSync(envPath)) {
+        require('dotenv').config({ path: envPath });
+        console.log(`=== SUKSES NEMU ENV DI: ${envPath} ===`);
+        envFound = true;
+        break;
+    }
+}
+
+if (!envFound) {
+    // Kalau Choreo ternyata gak bikin file, tapi malah langsung inject ke OS Env (Fallback)
     require('dotenv').config();
 }
 
-// 🛑 TAMBAHKAN LINE INI BUAT NGE-CEK TOKEN LU KEBACA APA KAGAK
+// Bagian Debug Tetep Biarin Biar Kelihatan di Log
 console.log("=== ISI CONFIG YANG KEBACA ===");
 console.log("BOT_TOKEN_ADA:", process.env.BOT_TOKEN ? "YA (Ada Isinya)" : "KAGAK ADA (KOSONG)");
 console.log("GUILD_ID:", process.env.GUILD_ID || "KOSONG");
