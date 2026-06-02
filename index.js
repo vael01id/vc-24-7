@@ -52,10 +52,6 @@ const client = new Client({
     ]
 });
 
-const TOKEN = process.env.BOT_TOKEN;
-const GUILD_ID = process.env.GUILD_ID;
-const CHANNEL_ID = process.env.CHANNEL_ID;
-
 function konekVC() {
     try {
         const guild = client.guilds.cache.get(GUILD_ID);
